@@ -1,0 +1,47 @@
+{%extends "base.html"%}
+
+{%block title%}
+Update student
+{%endblock%}
+
+{%block name%}
+<h2>Update student details</h2>
+{%endblock%}
+
+{%block content%}
+<div class="main">
+    <div class="mycard">
+        <form method="POST" class="data-form">
+            {% csrf_token %}
+            <div class="form-field">
+                <label>Name</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div class="form-field">
+                <label>Student ID</label>
+                {{ form.student_id }}
+                {{ form.student_id.errors }}
+            </div>
+            <div class="form-field">
+                <label>Subject</label>
+                {{ form.subject }}
+                {{ form.subject.errors }}
+            </div>
+            <div class="form-field">
+                <label>Joined Date</label>
+                {{ form.joined_date }}
+                {{ form.joined_date.errors }}
+            </div>
+            <div class="form-field">
+                <label>Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+            <button type="submit" class="button">
+                Update Student
+            </button>
+        </form>
+    </div>
+</div>
+{%endblock%}

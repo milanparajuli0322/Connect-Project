@@ -1,0 +1,21 @@
+{%extends "base.html"%}
+
+{%block title%}
+Delete teacher
+{%endblock%}
+
+{%block name%}
+<p>Delete teacher</p>
+{%endblock%}
+
+{%block content%}
+<div class="main">
+    <div class="mycard">
+        <p>Are you sure you want to delete teacher {{ person.name }}? (ID: {{ person.teacher_id }})</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit"><h4>Delete</h4></button>
+        </form>
+    </div>
+</div>
+{%endblock%}

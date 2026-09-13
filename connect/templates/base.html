@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+    </head>
+    <body>
+        <div class="topnav">
+            <div class="main">
+                <a href="{% url 'home_page' %}">Home |</a>
+                <a href="{% url 'student_list' %}">Students |</a>
+                <a href="{% url 'teacher_list' %}">Teachers |</a>
+                <a href="{% url 'about_page' %}">About |</a>
+                <form method="post" action="{% url 'logout_page' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-link">Logout |</button>
+                </form>
+                <a href="{% url 'my_details'%}">Profile</a>
+            </div>
+        </div>
+        <div class="main">
+            <h2>
+            {% block name %}
+            {% endblock %}
+            </h2>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

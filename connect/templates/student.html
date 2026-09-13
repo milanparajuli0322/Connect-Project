@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+Students
+{% endblock %}
+
+{% block name %}
+Students
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <form method="GET">
+        <div class="inputs">
+        <input type="text" name="search" placeholder="Search by id-name-subject-email">
+        <select name="subject">
+            <option value="">Filter by subject</option>
+            <option value="SOFTWARE ENGINEERING">Software Engineering</option>
+            <option value="CYBERSECURITY">Cybersecurity</option>
+            <option value="ARTIFICIAL INTELLIGENCE">Artificial Intelligence</option>
+        </select>
+        <select name="sort">
+            <option value="">Sort by id-name-date-subject-email</option>
+            <option value="id">Student ID</option>
+            <option value="name">Name</option>
+            <option value="date">Joined Date</option>
+            <option value="subject">Subject</option>
+            <option value="email">Email</option>
+        </select>
+        <button class="button" type="submit">Process</button>
+        </div>
+    </form>
+    <a class="button" href="{% url 'create_student' %}">Add Student</a>
+    <div class="mycard">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Student ID</th>
+                <th>Subject</th>
+            </tr>
+            {% for i in person %}
+            <tr>
+                <td><a href="{% url 'student_details' i.slug %}">{{i.name}}</a></td>
+                <td><a href="{% url 'student_details' i.slug %}">{{i.student_id}}</a></td>
+                <td><a href="{% url 'student_details' i.slug %}">{{i.subject}}</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No student found. Try changing your search or filter</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?{{ query_params }}&page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?{{ query_params }}&page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

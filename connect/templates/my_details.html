@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block name %}
+Profile 
+{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="main">
+        <div class="mycard"> <p>{{ error }}</p></div>
+    </div>
+{% else %}
+    <div class="mycard">
+        <table>
+            <tr><td>Name</td><td>{{ x.name }}</td></tr>
+            {% if type == "student" %}
+            <tr><td>Student ID</td><td>{{ x.student_id }}</td></tr>
+            {% endif %}
+            {% if type == "teacher" %}
+            <tr><td>Teacher ID</td><td>{{ x.teacher_id }}</td></tr>
+            {% endif %}
+            <tr><td>Subject</td><td>{{ x.subject }}</td></tr>
+            <tr><td>Joining Date</td><td>{{ x.joined_date }}</td></tr>
+            <tr><td>Email</td><td>{{ x.email }}</td></tr>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

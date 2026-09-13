@@ -1,0 +1,47 @@
+{%extends "base.html"%}
+
+{%block title%}
+Add Teacher
+{%endblock%}
+
+{%block name%}
+<h2>Enter teacher details :</h2>
+{%endblock%}
+
+{%block content%}
+<div class="main">
+    <div class="mycard">
+        <form method="POST" class="data-form">
+            {% csrf_token %}
+            <div class="form-field">
+                <label>Name</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div class="form-field">
+                <label>Teacher ID</label>
+                {{ form.teacher_id }}
+                {{ form.teacher_id.errors }}
+            </div>
+            <div class="form-field">
+                <label>Subject</label>
+                {{ form.subject }}
+                {{ form.subject.errors }}
+            </div>
+            <div class="form-field">
+                <label>Joined Date</label>
+                {{ form.joined_date }}
+                {{ form.joined_date.errors }}
+            </div>
+            <div class="form-field">
+                <label>Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+            <button type="submit" class="button">
+                Add Teacher
+            </button>
+        </form>
+    </div>
+</div>
+{%endblock%}

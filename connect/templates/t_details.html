@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Details
+{% endblock %}
+
+{% block name %}
+Full Details
+{% endblock %}
+
+{% block content %}
+<div class="mycard">
+    <table>
+        <tr><td>Name</td><td>{{ x.name }}</td></tr>
+        <tr><td>Teacher ID</td><td>{{ x.teacher_id }}</td></tr>
+        <tr><td>Subject</td><td>{{ x.subject }}</td></tr>
+        <tr><td>Joining Date</td><td>{{ x.joined_date }}</td></tr>
+        <tr><td>Email</td><td>{{ x.email }}</td></tr>
+    </table>
+</div>
+<div class="main">
+    <a class="button" href="{% url 'update_teacher' x.slug %}">Update Teacher</a>
+    <a class="button" href="{% url 'delete_teacher' x.slug %}">Delete Teacher</a>
+</div>
+{% endblock %}

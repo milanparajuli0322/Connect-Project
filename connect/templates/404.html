@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-Page Not Found
+Page not found
 {% endblock %}
 
 {% block name %}
-Page Not Found
+Page not found
 {% endblock %}
 
 {% block content %}
-<div class="main">
-    <p>The page you're looking for doesn't exist.</p>
+<div class="mycard empty-state">
+    <p class="error-code">404</p>
+    <h2>We can't find that page</h2>
+    <p>The link may be broken, or the record may have been deleted.</p>
+    <a class="button" href="{% url 'home_page' %}">Back to home</a>
 </div>
 {% endblock %}

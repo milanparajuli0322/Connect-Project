@@ -1,40 +1,49 @@
 {% load static %}
-<html>
-    <head lang="en">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'base.css' %}">
-        <title>Login</title>
+        <title>Sign in | Connect</title>
     </head>
-    <body>
-        <div class="login-container">
-            <div class="main">
-                <h2>Login Credentials</h2>
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="message {{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                <div class="mycard login-box">
-                    {% if error %}
-                    <p>{{error}}</p>
-                    {% endif %}
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="form-field">
-                            <label>Username</label>
-                            {{form.username }}
-                        </div>
-                        <div class="form-field">
-                            <label>Password</label>
-                            {{ form.password }}
-                        </div>
-                        <button type="submit" class="button">Login</button>
-                    </form>
-                </div>
+    <body class="auth-page">
+        <main class="auth-card">
+            <div class="auth-brand">
+                <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                    <circle cx="14" cy="20" r="10"/>
+                    <circle cx="26" cy="20" r="10"/>
+                </svg>
+                <span class="brand-text">
+                    <strong>Connect</strong>
+                    <small>Clash College</small>
+                </span>
             </div>
-        </div>
+
+            <h1 class="auth-title">Sign in</h1>
+            <p class="auth-sub">Enter your username and password to continue.</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}" role="status">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-field">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-field">
+                    <label for="{{ form.password.id_for_label }}">Password</label>
+                    {{ form.password }}
+                </div>
+                <button type="submit" class="button auth-submit">Sign in</button>
+            </form>
+        </main>
     </body>
 </html>

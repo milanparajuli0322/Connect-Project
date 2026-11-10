@@ -1,25 +1,33 @@
 {% extends "base.html" %}
 
 {% block title %}
-Details
+{{ x.name }}
 {% endblock %}
 
 {% block name %}
-Full Details
+Student details
 {% endblock %}
 
 {% block content %}
-<div class="mycard">
-    <table>
-        <tr><td>Name</td><td>{{ x.name }}</td></tr>
-        <tr><td>Student ID</td><td>{{ x.student_id }}</td></tr>
-        <tr><td>Subject</td><td>{{ x.subject }}</td></tr>
-        <tr><td>Joining Date</td><td>{{ x.joined_date}}</td></tr>
-        <tr><td>Email</td><td>{{ x.email }}</td></tr>
-    </table>
+<div class="mycard profile">
+    <div class="profile-head">
+        <span class="avatar-lg" aria-hidden="true">{{ x.name|slice:":1"|upper }}</span>
+        <div>
+            <h2 class="profile-name">{{ x.name }}</h2>
+            <span class="badge badge-{{ x.subject|slugify }}">{{ x.subject|title }}</span>
+        </div>
+    </div>
+    <dl class="detail-list">
+        <div><dt>Student ID</dt><dd>{{ x.student_id }}</dd></div>
+        <div><dt>Joined</dt><dd>{{ x.joined_date|date:"j F Y" }}</dd></div>
+        <div><dt>Email</dt><dd>{{ x.email }}</dd></div>
+        <div><dt>Subject</dt><dd>{{ x.subject|title }}</dd></div>
+    </dl>
 </div>
-<div class="main">
-    <a class="button" href="{% url 'update_student' x.slug %}">Update Student</a>
-    <a class="button" href="{% url 'delete_student' x.slug %}">Delete Student</a>
+
+<div class="actions">
+    <a class="button" href="{% url 'update_student' x.slug %}">Edit student</a>
+    <a class="button danger" href="{% url 'delete_student' x.slug %}">Delete student</a>
+    <a class="button secondary" href="{% url 'student_list' %}">Back to students</a>
 </div>
 {% endblock %}

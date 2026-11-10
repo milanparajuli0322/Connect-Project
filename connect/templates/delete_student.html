@@ -1,21 +1,24 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 
-{%block title%}
+{% block title %}
 Delete student
-{%endblock%}
+{% endblock %}
 
-{%block name%}
-<p>Delete student</p>
-{%endblock%}
+{% block name %}
+Delete student
+{% endblock %}
 
-{%block content%}
-<div class="main">
-    <div class="mycard">
-        <p>Are you sure you want to delete student {{ person.name }}? (ID: {{ person.student_id }})</p>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit"><h4>Delete</h4></button>
-        </form>
-    </div>
+{% block content %}
+<div class="mycard confirm">
+    <span class="confirm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18h.01"/></svg>
+    </span>
+    <h2>Delete {{ person.name }}?</h2>
+    <p>This permanently removes the student record (ID {{ person.student_id }}). You can't undo this.</p>
+    <form method="POST" class="actions">
+        {% csrf_token %}
+        <button type="submit" class="button danger">Delete student</button>
+        <a class="button secondary" href="{% url 'student_list' %}">Cancel</a>
+    </form>
 </div>
-{%endblock%}
+{% endblock %}

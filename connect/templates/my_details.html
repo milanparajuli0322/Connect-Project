@@ -5,28 +5,35 @@ Profile
 {% endblock %}
 
 {% block name %}
-Profile 
+My profile
 {% endblock %}
 
 {% block content %}
 {% if error %}
-    <div class="main">
-        <div class="mycard"> <p>{{ error }}</p></div>
-    </div>
+<div class="mycard empty-state">
+    <h2>No profile linked</h2>
+    <p>{{ error }}. Ask an administrator to connect your account to a student or teacher record.</p>
+</div>
 {% else %}
-    <div class="mycard">
-        <table>
-            <tr><td>Name</td><td>{{ x.name }}</td></tr>
-            {% if type == "student" %}
-            <tr><td>Student ID</td><td>{{ x.student_id }}</td></tr>
-            {% endif %}
-            {% if type == "teacher" %}
-            <tr><td>Teacher ID</td><td>{{ x.teacher_id }}</td></tr>
-            {% endif %}
-            <tr><td>Subject</td><td>{{ x.subject }}</td></tr>
-            <tr><td>Joining Date</td><td>{{ x.joined_date }}</td></tr>
-            <tr><td>Email</td><td>{{ x.email }}</td></tr>
-        </table>
+<div class="mycard profile">
+    <div class="profile-head">
+        <span class="avatar-lg" aria-hidden="true">{{ x.name|slice:":1"|upper }}</span>
+        <div>
+            <h2 class="profile-name">{{ x.name }}</h2>
+            <span class="badge badge-{{ x.subject|slugify }}">{{ x.subject|title }}</span>
+        </div>
     </div>
+    <dl class="detail-list">
+        {% if type == "student" %}
+        <div><dt>Student ID</dt><dd>{{ x.student_id }}</dd></div>
+        {% endif %}
+        {% if type == "teacher" %}
+        <div><dt>Teacher ID</dt><dd>{{ x.teacher_id }}</dd></div>
+        {% endif %}
+        <div><dt>Joined</dt><dd>{{ x.joined_date|date:"j F Y" }}</dd></div>
+        <div><dt>Email</dt><dd>{{ x.email }}</dd></div>
+        <div><dt>Subject</dt><dd>{{ x.subject|title }}</dd></div>
+    </dl>
+</div>
 {% endif %}
 {% endblock %}

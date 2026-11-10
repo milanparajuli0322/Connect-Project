@@ -9,58 +9,88 @@ Students
 {% endblock %}
 
 {% block content %}
-<div class="main">
-    <form method="GET">
-        <div class="inputs">
-        <input type="text" name="search" placeholder="Search by id-name-subject-email">
-        <select name="subject">
-            <option value="">Filter by subject</option>
-            <option value="SOFTWARE ENGINEERING">Software Engineering</option>
-            <option value="CYBERSECURITY">Cybersecurity</option>
-            <option value="ARTIFICIAL INTELLIGENCE">Artificial Intelligence</option>
-        </select>
-        <select name="sort">
-            <option value="">Sort by id-name-date-subject-email</option>
-            <option value="id">Student ID</option>
-            <option value="name">Name</option>
-            <option value="date">Joined Date</option>
-            <option value="subject">Subject</option>
-            <option value="email">Email</option>
-        </select>
-        <button class="button" type="submit">Process</button>
-        </div>
-    </form>
-    <a class="button" href="{% url 'create_student' %}">Add Student</a>
-    <div class="mycard">
-        <table>
+<form method="GET" class="inputs">
+    <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search by name, ID, subject or email" aria-label="Search students">
+    <select name="subject" aria-label="Filter by subject">
+        <option value="">All subjects</option>
+        <option value="SOFTWARE ENGINEERING"{% if request.GET.subject == "SOFTWARE ENGINEERING" %} selected{% endif %}>Software Engineering</option>
+        <option value="CYBERSECURITY"{% if request.GET.subject == "CYBERSECURITY" %} selected{% endif %}>Cybersecurity</option>
+        <option value="ARTIFICIAL INTELLIGENCE"{% if request.GET.subject == "ARTIFICIAL INTELLIGENCE" %} selected{% endif %}>Artificial Intelligence</option>
+    </select>
+    <select name="sort" aria-label="Sort students">
+        <option value="">Default order</option>
+        <option value="id"{% if request.GET.sort == "id" %} selected{% endif %}>Sort by student ID</option>
+        <option value="name"{% if request.GET.sort == "name" %} selected{% endif %}>Sort by name</option>
+        <option value="date"{% if request.GET.sort == "date" %} selected{% endif %}>Sort by joined date</option>
+        <option value="subject"{% if request.GET.sort == "subject" %} selected{% endif %}>Sort by subject</option>
+        <option value="email"{% if request.GET.sort == "email" %} selected{% endif %}>Sort by email</option>
+    </select>
+    <button class="button" type="submit">Apply</button>
+    {% if request.GET.search or request.GET.subject or request.GET.sort %}
+    <a class="button secondary" href="{% url 'student_list' %}">Reset</a>
+    {% endif %}
+</form>
+
+<div class="page-actions">
+    <p class="meta">{{ page_obj.paginator.count }} student{{ page_obj.paginator.count|pluralize }}</p>
+    {% if perms.connect.add_students %}
+    <a class="button" href="{% url 'create_student' %}">Add student</a>
+    {% endif %}
+</div>
+
+<div class="mycard flush">
+    <table>
+        <thead>
             <tr>
                 <th>Name</th>
                 <th>Student ID</th>
                 <th>Subject</th>
+                <th>Joined</th>
+                <th>Actions</th>
             </tr>
+        </thead>
+        <tbody>
             {% for i in person %}
             <tr>
-                <td><a href="{% url 'student_details' i.slug %}">{{i.name}}</a></td>
-                <td><a href="{% url 'student_details' i.slug %}">{{i.student_id}}</a></td>
-                <td><a href="{% url 'student_details' i.slug %}">{{i.subject}}</a></td>
+                <td>
+                    <span class="person">
+                        <span class="avatar-sm" aria-hidden="true">{{ i.name|slice:":1"|upper }}</span>
+                        <span>
+                            <span class="person-name">
+                                {% if request.user.is_superuser %}<a href="{% url 'student_details' i.slug %}">{{ i.name }}</a>{% else %}{{ i.name }}{% endif %}
+                            </span>
+                            <span class="person-sub">{{ i.email }}</span>
+                        </span>
+                    </span>
+                </td>
+                <td>{{ i.student_id }}</td>
+                <td><span class="badge badge-{{ i.subject|slugify }}">{{ i.subject|title }}</span></td>
+                <td>{{ i.joined_date|date:"j M Y" }}</td>
+                <td>
+                    <span class="row-actions">
+                        {% if perms.connect.change_students %}<a href="{% url 'update_student' i.slug %}">Edit</a>{% endif %}
+                        {% if perms.connect.delete_students %}<a class="danger-link" href="{% url 'delete_student' i.slug %}">Delete</a>{% endif %}
+                    </span>
+                </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3">No student found. Try changing your search or filter</td>
+                <td colspan="5" class="empty-cell">No students found. Try changing your search or filter.</td>
             </tr>
             {% endfor %}
-        </table>
-    </div>
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a href="?{{ query_params }}&page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
+        </tbody>
+    </table>
+</div>
 
-        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?{{ query_params }}&page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
 
-        {% if page_obj.has_next %}
-            <a href="?{{ query_params }}&page={{ page_obj.next_page_number }}">Next</a>
-        {% endif %}
-    </div>
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?{{ query_params }}&page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
 </div>
 {% endblock %}

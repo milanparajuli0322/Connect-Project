@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title%}
+{% block title %}
 About
 {% endblock %}
 
@@ -9,40 +9,43 @@ About Clash College
 {% endblock %}
 
 {% block content %}
-<div class="main"><p>Welcome to Clash College, a place dedicated to learning and excellence.</p></div>
-<div class="main">
-    <div class="mycard">
-        <div class="stats">
-            <div class="stat-card">
-                <h3>Total Students</h3>
-                <p>{{ student_count }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Teachers</h3>
-                <p>{{ teacher_count }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Subjects</h3>
-                <p>{{ subject_count }}</p>
-            </div>
-        </div>
+<p class="lead">Clash College is a place dedicated to learning and excellence.</p>
 
-        <div class="subject-stats">
-            <h3>Students by Subject :</h3>
-            {% for i in students_by_subject %}
-                <p>{{ i.subject }} : {{ i.total }}</p>
-            {% empty %}
-                <p>No student data available.</p>
-            {% endfor %}
-        </div>
-        <div class="subject-stats">
-            <h3>Teachers by Subject :</h3>
-            {% for i in teachers_by_subject %}
-                <p>{{ i.subject }} : {{ i.total }}</p>
-            {% empty %}
-                <p>No teacher data available.</p>
-            {% endfor %}
-        </div>
+<div class="stats">
+    <div class="stat-card">
+        <h3>Total students</h3>
+        <p>{{ student_count }}</p>
     </div>
+    <div class="stat-card">
+        <h3>Total teachers</h3>
+        <p>{{ teacher_count }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total subjects</h3>
+        <p>{{ subject_count }}</p>
+    </div>
+</div>
+
+<div class="split">
+    <section class="mycard">
+        <h3 class="card-title">Students by subject</h3>
+        <ul class="breakdown">
+            {% for i in students_by_subject %}
+            <li><span>{{ i.subject|title }}</span><strong>{{ i.total }}</strong></li>
+            {% empty %}
+            <li class="empty">No student data available.</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <section class="mycard">
+        <h3 class="card-title">Teachers by subject</h3>
+        <ul class="breakdown">
+            {% for i in teachers_by_subject %}
+            <li><span>{{ i.subject|title }}</span><strong>{{ i.total }}</strong></li>
+            {% empty %}
+            <li class="empty">No teacher data available.</li>
+            {% endfor %}
+        </ul>
+    </section>
 </div>
 {% endblock %}

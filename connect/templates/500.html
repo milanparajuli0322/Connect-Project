@@ -1,15 +1,17 @@
-{% extends "base.html" %}
-
-{% block title %}
-Server Error
-{% endblock %}
-
-{% block name %}
-Server Error
-{% endblock %}
-
-{% block content %}
-<div class="main">
-    <p>Something went wrong on our side. Please try again later.</p>
-</div>
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <title>Server error | Connect</title>
+    </head>
+    <body class="auth-page">
+        <main class="auth-card empty-state">
+            <p class="error-code">500</p>
+            <h1 class="auth-title">Something went wrong</h1>
+            <p class="auth-sub">The problem is on our side. Please try again in a few minutes.</p>
+        </main>
+    </body>
+</html>
